@@ -25,7 +25,7 @@ SECRET_KEY = '*gen6ftaf+g)qp0dy^&f@$r=@(0a=^yez_dt%@90b+%a3-uzxb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0, 0, 0, 0', '134.175.57.38', 'www.aston5128.top']
 
 
 # Application definition
