@@ -1,0 +1,25 @@
+* {margin: 0 0; padding: 0 0;}
+
+body {min-width: 1280px; color: #525252; background-color: #f7f7f7}
+
+#top-bar {
+    width: 100%;
+    height: 57px;
+    border-bottom: rgba(88, 88, 88, 0.5) 3px solid;
+    background-color: white;
+    position: fixed;
+}
+
+#top-bar p {
+    color: #ff5a00;
+    text-align: center;
+    margin: 10px auto;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#main-content {
+    padding-top: 60px;
+    width: 1280px;
+    margin: 0 auto;
+}

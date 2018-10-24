@@ -1,0 +1,32 @@
+#question-type-and-page-info a {
+    width: 220px;
+    height: 38px;
+    display: block;
+    text-align: center;
+    padding: 14px 0 0 0;
+    /*background-color: #18181c;*/
+    color: #7c7c7c;
+    text-decoration: None;
+    border-bottom: #ff5a00 1px solid;
+}
+
+#question-type-and-page-info a:hover {
+    color: #f7f7f7;
+    background-color: #ff5a00;
+}
+
+#go-to {
+    width: 20px;
+    height: 19px;
+    font-weight: 300;
+    font-size: 14px;
+    color: #f7f7f7;
+    background: #ff5a00;
+    cursor: pointer;
+    border: black 0 solid;
+}
+
+#go-to:active {
+    color: white;
+    background: #9c9ca9;
+}

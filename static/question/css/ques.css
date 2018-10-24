@@ -1,0 +1,163 @@
+/* 针对问题公共 css 样式提取 */
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.content {float: left}
+
+#question { width: 768px; }
+
+#question-type-and-page-info { width: 256px; }
+
+#question-type-and-page-info h1 { font-weight: 300; margin: 10px 0; }
+
+#question-num {
+    color: #ff5a00;
+    font-size: 28px;
+    font-weight: 300;
+    margin: 10px 0;
+}
+
+#question-text {
+    font-size: 16px;
+    margin: 30px 30px;
+}
+
+#choice-form label {
+    margin: 0 60px;
+    display: block;
+    width: fit-content;
+    /*padding: 5px 0;*/
+    cursor: pointer;
+}
+
+.btn {
+    width: 100px;
+    height: 30px;
+    font-weight: 300;
+    font-size: 14px;
+    color: #f7f7f7;
+    background: #ff5a00;
+    cursor: pointer;
+    border: black 0 solid;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.btn:active {
+    color: white;
+    background: #9c9ca9;
+}
+
+#func-box { margin: 10px 0; }
+
+.change-ques {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+}
+
+.change-ques:hover { color: #ff5a00; }
+
+#ques_num { width: 40px; }
+
+#user-info {
+    margin: 16px 0;
+    width: 254px;
+    height: fit-content;
+    border: #ff5a00 1px solid;
+}
+
+#user-img img {
+    width: 64px;
+    height: 64px;
+    display: block;
+    margin: 10px auto;
+}
+
+.user { width: inherit; }
+
+#user-name h1 {
+    width: fit-content;
+    height: fit-content;
+    font-weight: 300;
+    margin: 10px auto;
+}
+
+#user-title p {
+    width: fit-content;
+    font-weight: 300;
+    color: #7c7c7c;
+    margin: 5px auto;
+}
+
+#btn-content { margin: 40px 0 0 0; }
+
+#btn-div { width: fit-content; margin: 30px auto 0 auto; }
+
+#logout {
+    color: black;
+    background: none;
+    border: none;
+    cursor: pointer;
+    float: left;
+    margin-right: 30px;
+    margin-left: 20px;
+}
+
+#logout:hover {
+    color: #ff5a00;
+}
+
+#change-password {
+    color: black;
+    background: none;
+    display: block;
+    border: none;
+    cursor: pointer;
+    float: left;
+    margin-left: 40px;
+}
+
+#change-password:hover {
+    color: #ff5a00;
+}
+
+#func-btn-content {
+    width: fit-content;
+    margin: 0 auto 30px auto;
+}
+
+.user-input {
+    width: 144px;
+    padding: 18px 2em 5px 3em;
+    font-size: 18px;
+    outline: none;
+    border: none;
+    font-weight: 100;
+    border-bottom: 1px solid #ff5a00;
+    margin: 10px 10px 0 10px;
+}
+
+#username { background: #f7f7f7 url('../images/user.png') no-repeat 10px 15px; color: #7c7c7c; }
+
+#password { background: #f7f7f7 url('../images/password.png') no-repeat 10px 15px; color: #ff5a00; }
+
+#login-form { margin: 20px 0; }
+
+.error-msg {
+    width: inherit;
+    color: red;
+    padding: 10px 0;
+    height: 22px;
+    visibility: hidden;
+}
+
+.error-msg p { text-align: center; }
+
+#login-btn-div { width: inherit; }
+
+#login-btn { margin: 0 auto; display: block; }

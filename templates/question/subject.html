@@ -1,0 +1,188 @@
+{% extends 'question/head.html' %}
+
+{% load static %}
+
+{% block title %}题型: {{ question_type }}{% endblock %}
+
+{% block head-content %}
+    <link href="{% static 'question/css/subject.css' %}" rel="stylesheet">
+    <link href="{% static 'question/css/ques.css' %}" rel="stylesheet">
+
+    <script src="{% static 'question/js/login.js' %}"></script>
+{% endblock %}
+
+{% block content_main %}
+    <div id="question-type-and-page-info" class="content">
+        <h1>专题练习 ></h1><br>
+        <p>{{ question_type }}</p>
+        <h1><a id="back-to-line" href="{% url 'ques' question_num %}">< 顺序练习</a></h1>
+    </div>
+    <div id="question" class="content">
+        <p id="question-num">题号: {{ question_num }}</p>
+        <span>题目类型: {{ question_type }} | 难度: {{ difficulty }} | </span>
+        {% if is_visited == 1 %}
+            <span style="color: green">你曾答对此题</span>
+        {% elif is_visited == 0 %}
+            <span style="color: red">你曾答错此题</span>
+        {% elif is_visited == -1 %}
+            <span style="color: #ff5a00">你还没做此题，选择很关键!</span>
+        {% else %}
+            <span style="color:#ff5a00;">查看这题的记录需要登录哦!</span>
+        {% endif %}
+
+        <pre id="question-text">{{ question_text }}</pre>
+        <form id="choice-form" name="choice-form" method="post" action="">
+            <label>
+                <input type="radio" name="choice" value="A" checked="checked"/>
+                A: {{ choice_a }}
+            </label><br />
+            <label>
+                <input type="radio" name="choice" value="B" />
+                B: {{ choice_b }}
+            </label><br />
+            <label>
+                <input type="radio" name="choice" value="C" />
+                C: {{ choice_c }}
+            </label><br />
+            <label>
+                <input type="radio" name="choice" value="D" />
+                D: {{ choice_d }}
+            </label><br /><br />
+            <button type="button" id="sub_btn" class="btn">提 交</button><span style="visibility: hidden;" id="answer"></span>
+            <span style="visibility: hidden; color: black" id="info">, 3秒后将跳转到下一题</span>
+            <a href="{% url 'subject' question_type_code question_order|add:1 %}" style="visibility: hidden" id="jump"> 没有跳转？</a>
+        </form>
+
+        <div id="func-box">
+            <button id="forward" class="change-ques">上一题</button> |
+            <label><input type="text" id="ques_num"><button id="go-to-subject">Go</button></label> |
+            <span>{{ question_order }}/{{ num_of_ques }} |</span>
+            <button id="next" class="change-ques">下一题</button>
+        </div>
+    </div>
+    <div id="user-info" class="content">
+        <div id="user-img" class="user"><img src="{% static 'question/images/user.jpg' %}"></div>
+        {% if user %}
+            <div id="user-name" class="user"><h1>{{ user }}</h1></div>
+            <div id="user-title" class="user"><p>- {{ user_title }} -</p></div>
+            <div id="btn-div" class="user"><button class="btn" id="space_btn">个人中心</button></div>
+            <div class="user" id="func-btn-content"><button id="logout">注销</button><button id="change-password">修改密码</button></div>
+        {% else %}
+            <form id="login-form" name="login-form" method="post" action="{% url 'ques' question_num %}">
+                {% csrf_token %}
+                <label>
+                    <input type="text" name="username" id="username" class="user-input" value="Username" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Username';}">
+                </label><br>
+                <label>
+                    <input type="password" name="password" id="password" class="user-input">
+                </label>
+                <div class="error-msg"><p id="error-msg-text"></p></div>
+                <div id="login-btn-div"><button class="btn" id="login-btn" onclick="return false;">登录</button></div>
+            </form>
+        {% endif %}
+    </div>
+
+    <script>
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+        });
+
+        function confirm_login(username, password) {
+            $.ajax({
+                url: "{% url 'ajax_login' %}",
+                type: "post",
+                data: {'username': username, 'password': password},
+                success: function (args) {
+                    const json = jQuery.parseJSON(args);
+
+                    if (json['correct_logon']) {
+                        location = "{% url 'subject' question_type_code question_order %}";
+                    } else {
+                        document.getElementsByClassName("error-msg")[0].style.visibility = "visible";
+                        document.getElementById('error-msg-text').innerText = '用户名或密码错误';
+                    }
+                }
+            });
+        }
+
+        function logout() {
+            $.ajax({
+                url: {% url 'ajax_logout' %},
+                type: "post",
+                success:function () {
+                    location = "{% url 'subject' question_type_code question_order %}";
+                }
+            });
+        }
+
+        function Jump() {
+            location = "{% url 'subject' question_type_code  question_order|add:1 %}"
+        }
+
+        function go_to_subject() {
+            let ques_num = $('#ques_num').val();
+
+            if (parseInt(ques_num) >= 1 && parseInt(ques_num) <= {{ num_of_ques }}) {
+                location = '/subject/' + '{{ question_type_code }}/' + ques_num;
+            }
+        }
+
+        function confirm_answer() {
+            const choice = $('input:radio[name="choice"]:checked').val();
+
+            $.ajax({
+                url: "{% url 'ajax_confirm_answer' %}",
+                type: "post",
+                data: {'question_num': '{{ question_num }}', 'choice': choice},
+                success: function (args) {
+                    const json = jQuery.parseJSON(args);
+                    if (json['is_correct']) {
+                        $("#answer").css('visibility', 'visible').css('color', 'green').text(' 答对了');
+                        $("#info").css('visibility', 'visible');
+                        $("#jump").css('visibility', 'visible');
+                        setTimeout('Jump()', 3000)
+                    } else {
+                        $("#answer").css('visibility', 'visible').css('color', 'red').text(' 答错了，正确答案: ' + json['answer']);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#sub_btn").click(function () {
+                confirm_answer();
+            });
+
+            $("#go-to-subject").click(function () {
+                go_to_subject();
+            });
+
+            $('#ques_num').bind('keypress', function (event) {
+                if (event.keyCode === 13) {
+                    go_to_subject();
+                }
+            });
+
+            $("#next").click(function () {
+                let current_page_num = {{ question_order }};
+                if (current_page_num === {{ num_of_ques }}) {
+                    alert('不能再往后了 <(￣ ﹌ ￣)>');
+                } else {
+                    location = '{% url 'subject' question_type_code question_order|add:1 %}';
+                }
+            });
+
+            $("#forward").click(function () {
+                let current_page_num = {{ question_order }};
+                if (current_page_num === 1) {
+                    alert('不能再往前了 <(￣ ﹌ ￣)>');
+                } else {
+                    location = '{% url 'subject' question_type_code question_order|add:-1 %}';
+                }
+            });
+            $("#space_btn").click(function () {
+                location = {% url 'space' %};
+            });
+        });
+    </script>
+{% endblock %}

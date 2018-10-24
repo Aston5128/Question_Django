@@ -1,0 +1,27 @@
+{% extends 'question/head.html' %}
+
+{% load static %}
+
+{% block title %}{{ user }} - 个人中心{% endblock %}
+
+{% block head-content %}
+    <link href="{% static 'question/css/space.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content_main %}
+    <div>
+        <div class="container">
+            <div id="private_space">
+                <div id="user-img" class="user"><img src="{% static 'question/images/user.jpg' %}"></div>
+                <div id="user-name" class="user"><h1>{{ user }}</h1></div>
+                <div id="user-title" class="user">- {{ user_title }} -</div>
+            </div>
+            <div id="table_content">
+                <div id="table_content_1"><h1>{{ right_count }}</h1><span>正确</span></div>
+                <div id="table_content_2"><h1>{{ right_rate }}%</h1><span>正确率</span></div>
+                <div id="table_content_3"><h1>{{ wrong_count }}</h1><span>错误</span></div>
+                <div id="table_content_4"><h1>{{ total_count }}</h1><span>总刷题数</span></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

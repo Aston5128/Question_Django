@@ -1,0 +1,13 @@
+* { margin: 0; padding: 0; }
+.container { width: inherit;  }
+#private_space { width: 980px; height: 185px; margin: 0 auto; border-bottom: #ff5a00 solid 1px; }
+#user-img img { width: 64px; height: 64px; display: block; margin: 30px auto; }
+#user-name h1 { width: fit-content; height: fit-content; font-weight: 300; margin: 10px auto; }
+#user-title { width: fit-content; height: fit-content; font-weight: 300; margin: 5px auto; color: #7c7c7c; }
+#table_content { width: 780px; height: 280px; margin: 60px auto; }
+#table_content h1 { font-weight: 300; width: fit-content; margin: 30px auto; }
+#table_content span { width: fit-content; font-weight: 300; margin: 0 auto; color: #7c7c7c; display: block; }
+#table_content_1 { width: 138px; height: 138px; border: #ff5a00 solid 1px; float: left; margin-right: 50px; }
+#table_content_2 { width: 398px; height: 138px; border: #ff5a00 solid 1px; float: left; }
+#table_content_3 { width: 138px; height: 138px; border: #ff5a00 solid 1px; float: left; margin-left: 50px; }
+#table_content_4 { width: 778px; height: 138px; border: #ff5a00 solid 1px; float: left; margin: 60px 0 0 0; }
