@@ -12,7 +12,7 @@
         <property name="enable_load_extension" value="true" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="question_django@localhost" uuid="34b909ad-5aac-42c9-9c8c-45e04fd77f1f">
+    <data-source source="LOCAL" name="question_django@localhost" uuid="6c85a0d8-fa08-402f-b15f-a4ff555ffdf7">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>

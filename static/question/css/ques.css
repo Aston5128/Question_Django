@@ -65,7 +65,7 @@ pre {
 #ques_num { width: 40px; }
 
 #user-info {
-    margin: 16px 0;
+    margin: 18px 0 16px 0;
     width: 254px;
     height: fit-content;
     border: #ff5a00 1px solid;

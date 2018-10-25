@@ -1,0 +1,46 @@
+<!-- 提取出 index.html 和 subject.html 公共的右侧信息窗 -->
+
+{% load static %}
+
+<div id="user-info" class="content">
+    <div id="user-img" class="user"><img src="{% static 'question/images/user.jpg' %}"></div>
+    {% if user %}
+        <div id="user-name" class="user"><h1>{{ user }}</h1></div>
+        <div id="user-title" class="user"><p>- {{ user_title }} -</p></div>
+        <div id="btn-div">
+            <button class="btn" id="space_btn">个人中心</button>
+        </div>
+        <div class="user" id="func-btn-content">
+            <button id="logout">注销</button>
+            <button id="change-password">修改密码</button>
+        </div>
+    {% else %}
+        <form id="login-form" name="login-form" method="post" action="{% url 'ques' question_num %}">
+            {% csrf_token %}
+            <label>
+                <input type="text" name="username" id="username" class="user-input" value="Username"
+                       onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Username';}">
+            </label><br>
+            <label>
+                <input type="password" name="password" id="password" class="user-input">
+            </label>
+            <div class="error-msg"><p id="error-msg-text"></p></div>
+            <div id="login-btn-div">
+                <button class="btn" id="login-btn" onclick="return false;">登录</button>
+            </div>
+        </form>
+    {% endif %}
+</div>
+<div id="admin-msg" class="content">
+    <h3 class="admin-title">维护升级时间 ></h3>
+    <p class="admin-msg">23:00，不定期</p>
+</div>
+<div id="bug-report" class="content">
+    <h3 class="admin-title">BUG Report ></h3>
+    <p class="admin-msg">Aston</p>
+    <p class="admin-msg">&lt;2338733304@qq.com&gt;</p>
+</div>
+
+<script>
+    $("#space_btn").click(function () { location = {% url 'space' %}; });
+</script>

@@ -1,5 +1,6 @@
 from django.urls import path
 from question.views import *
+from question.views_extend.ajax_views import *
 
 urlpatterns = [
     path('', index, name='index'),
