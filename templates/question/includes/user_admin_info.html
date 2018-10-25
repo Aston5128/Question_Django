@@ -42,5 +42,39 @@
 </div>
 
 <script>
-    $("#space_btn").click(function () { location = {% url 'space' %}; });
+    $("#space_btn").click(function () {
+        location = {% url 'space' %};
+    });
+
+    $.ajaxSetup({
+        data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+    });
+
+    function confirm_login(username, password) {
+        $.ajax({
+            url: "{% url 'ajax_login' %}",
+            type: "post",
+            data: {'username': username, 'password': password},
+            success: function (args) {
+                const json = jQuery.parseJSON(args);
+
+                if (json['correct_logon']) {
+                    location = "{% url 'ques' question_num %}";
+                } else {
+                    document.getElementsByClassName("error-msg")[0].style.visibility = "visible";
+                    document.getElementById('error-msg-text').innerText = '用户名或密码错误';
+                }
+            }
+        });
+    }
+
+    function logout() {
+        $.ajax({
+            url: {% url 'ajax_logout' %},
+            type: "post",
+            success: function () {
+                location = "{% url 'ques' question_num %}";
+            }
+        });
+    }
 </script>

@@ -2,16 +2,19 @@
 
 
 <p id="question-num">题号: {{ question_num }}</p>
-<span>题目类型: {{ question_type }} | 难度: {{ difficulty }} | </span>
-{% if is_visited == 1 %}
-    <span style="color: green">你曾答对此题</span>
-{% elif is_visited == 0 %}
-    <span style="color: red">你曾答错此题</span>
-{% elif is_visited == -1 %}
-    <span style="color: #ff5a00">你还没做此题，选择很关键!</span>
-{% else %}
-    <span style="color:#ff5a00;">查看这题的记录需要登录哦!</span>
-{% endif %}
+<div id="question-info">
+    <span id="question-info-type">题目类型: {{ question_type }} | 难度: {{ difficulty }} | </span>
+    {% if is_visited == 1 %}
+        <span style="color: green">你曾答对此题</span>
+    {% elif is_visited == 0 %}
+        <span style="color: red">你曾答错此题</span>
+    {% elif is_visited == -1 %}
+        <span style="color: #ff5a00">你还没做此题，选择很关键!</span>
+    {% else %}
+        <span style="color:#ff5a00;">查看这题的记录需要登录哦!</span>
+    {% endif %}
+</div>
+
 
 <pre id="question-text">{{ question_text }}</pre>
 <form id="choice-form" name="choice-form" method="post" action="">
@@ -31,7 +34,7 @@
         <input type="radio" name="choice" value="D"/>
         D: {{ choice_d }}
     </label><br/><br/>
-    <button type="button" id="sub_btn" class="btn">提 交</button>
+    <button type="button" id="sub-btn" class="btn">提 交</button>
     <span style="visibility: hidden;" id="answer"></span>
     {% if question_order and question_order != num_of_ques %}
         <span style="visibility: hidden; color: black" id="info">, 3秒后将跳转到下一题</span>
@@ -95,24 +98,26 @@
     }
 
     $(document).ready(function () {
-        $("#sub_btn").click(function () {
+        $("#sub-btn").click(function () {
             confirm_answer();
         });
 
         // 存在 question_order 表示用户是在专题练习中
         let current_page_num = {{ question_num }};
         let max_page_num = 3436;
-        let question_order = "{{ question_order }}";
-        if (question_order) {
-            current_page_num = question_order;
+        let flag = true;
+
+        if ("{{ question_order }}") {
+            current_page_num = "{{ question_order }}";
             max_page_num = "{{ num_of_ques }}";
+            flag = false;
         }
 
         $("#next").click(function () {
             if (current_page_num === max_page_num) {
                 alert('不能再往后了 <(￣ ﹌ ￣)>');
             } else {
-                if (max_page_num === 3436) question_jump(1);
+                if (flag) question_jump(1);
                 else subject_jump(1);
             }
         });
@@ -121,7 +126,7 @@
             if (current_page_num === 1) {
                 alert('不能再往前了 <(￣ ﹌ ￣)>');
             } else {
-                if (max_page_num === 3436) question_jump(-1);
+                if (flag) question_jump(-1);
                 else subject_jump(-1);
             }
         });

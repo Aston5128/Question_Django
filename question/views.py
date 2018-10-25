@@ -1,47 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404
 from django.http import Http404
 from question.views_extend.func import *                       # 非页面响应函数
 
 
-# 科目对应字典
-QUESTION_TYPE_DICT = {
-    'J': '数据结构',
-    'K': '数据库原理',
-    'W': '网络',
-    'R': '软件工程',
-    'Z': '操作系统',
-    'C': '应用基础',
-    'D': '多媒体技术',
-    'Y': '硬件',
-    'H': '移动互联应用',
-    'L': '离散数学',
-    'S': '数据表示和计算',
-    'Q': '软件知识产权',
-    '1': 'C语言',
-    '2': 'C++',
-    '3': 'Java',
-    '4': 'VB',
-    '5': 'VFP',
-    '6': 'C#',
-}
-
-
 # 顺序练习
 def index(request):
-    question = Question.objects.get(question_num=1)
-
     record = user_record(request.session, 1)
     user_title = generate_session_title(request.session)
+    context = index_ques_view(1)
 
-    context = generate_context(question_num=question.question_num,
-                               question_type=QUESTION_TYPE_DICT[question.question_type],
-                               question_text=question.question_text,
-                               choice_a=question.choice_a,
-                               choice_b=question.choice_b,
-                               choice_c=question.choice_c,
-                               choice_d=question.choice_d,
-                               answer=question.answer,
-                               difficulty=question.difficulty)
     context.update(record)
     context.update(user_title)
 
@@ -50,23 +17,10 @@ def index(request):
 
 # 根据题号的顺序练习
 def ques(request, num=1):
-    if num <= 0 or num >= 3437:
-        raise Http404('Page Not Found')
-
-    question = Question.objects.get(question_num=num)
-
-    record = user_record(request.session, question.question_num)
+    record = user_record(request.session, num)
     user_title = generate_session_title(request.session)
+    context = index_ques_view(num)
 
-    context = generate_context(question_num=question.question_num,
-                               question_type=QUESTION_TYPE_DICT[question.question_type],
-                               question_text=question.question_text,
-                               choice_a=question.choice_a,
-                               choice_b=question.choice_b,
-                               choice_c=question.choice_c,
-                               choice_d=question.choice_d,
-                               answer=question.answer,
-                               difficulty=question.difficulty)
     context.update(record)
     context.update(user_title)
 
@@ -82,16 +36,15 @@ def subject(request, subject_code, num=1):
     :param num: 该题型的第几题
     :return: 响应页面
     """
-    question = Question.objects.filter(question_type=subject_code)
-    num_of_ques = len(question)
-
-    if num <= 0 or num > num_of_ques:
-        raise Http404('Page Not Found')
-
-    question_num = question[num - 1].question_num
+    question_list = get_list_or_404(Question, question_type=subject_code)
+    num_of_ques = len(question_list)
 
     if num_of_ques is 0 or num <= 0 or num > num_of_ques:
         raise Http404('Page Not Found')
+
+    question = question_list[num - 1]
+
+    question_num = question.question_num
 
     record = user_record(request.session, question_num)
     user_title = generate_session_title(request.session)
@@ -99,15 +52,15 @@ def subject(request, subject_code, num=1):
     context = generate_context(question_order=num,
                                num_of_ques=num_of_ques,
                                question_num=question_num,
-                               question_type=QUESTION_TYPE_DICT[question[num - 1].question_type],
+                               question_type=QUESTION_TYPE_DICT[question.question_type],
                                question_type_code=subject_code,
-                               question_text=question[num - 1].question_text,
-                               choice_a=question[num - 1].choice_a,
-                               choice_b=question[num - 1].choice_b,
-                               choice_c=question[num - 1].choice_c,
-                               choice_d=question[num - 1].choice_d,
-                               answer=question[num - 1].answer,
-                               difficulty=question[num - 1].difficulty)
+                               question_text=question.question_text,
+                               choice_a=question.choice_a,
+                               choice_b=question.choice_b,
+                               choice_c=question.choice_c,
+                               choice_d=question.choice_d,
+                               answer=question.answer,
+                               difficulty=question.difficulty)
     context.update(record)
     context.update(user_title)
 

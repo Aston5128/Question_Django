@@ -30,38 +30,6 @@
     {% include 'question/includes/user_admin_info.html' %}
 
     <script>
-        $.ajaxSetup({
-            data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
-        });
-
-        function confirm_login(username, password) {
-            $.ajax({
-                url: "{% url 'ajax_login' %}",
-                type: "post",
-                data: {'username': username, 'password': password},
-                success: function (args) {
-                    const json = jQuery.parseJSON(args);
-
-                    if (json['correct_logon']) {
-                        location = "{% url 'subject' question_type_code question_order %}";
-                    } else {
-                        document.getElementsByClassName("error-msg")[0].style.visibility = "visible";
-                        document.getElementById('error-msg-text').innerText = '用户名或密码错误';
-                    }
-                }
-            });
-        }
-
-        function logout() {
-            $.ajax({
-                url: {% url 'ajax_logout' %},
-                type: "post",
-                success:function () {
-                    location = "{% url 'subject' question_type_code question_order %}";
-                }
-            });
-        }
-
         function go_to_subject() {
             let ques_num = $('#ques_num').val();
 
