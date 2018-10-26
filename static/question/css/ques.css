@@ -36,10 +36,10 @@ pre { white-space: pre-wrap; word-wrap: break-word; }
 #btn-content { margin: 40px 0 0 0; }
 #btn-div { width: fit-content; margin: 30px auto 0 auto; }
 
-#logout { color: black; background: none; border: none; cursor: pointer; float: left; margin-right: 30px; margin-left: 20px; }
+#logout { color: #7c7c7c; background: none; border: none; cursor: pointer; float: left; margin-right: 30px; margin-left: 20px; }
 #logout:hover { color: #ff5a00; }
 
-#change-password { color: black; background: none; display: block; border: none; cursor: pointer; float: left; margin-left: 40px; }
+#change-password { color: #7c7c7c; background: none; display: block; border: none; cursor: pointer; float: left; margin-left: 40px; }
 #change-password:hover { color: #ff5a00; }
 #func-btn-content { width: fit-content; margin: 0 auto 30px auto; }
 
