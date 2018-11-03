@@ -12,11 +12,11 @@
         <property name="enable_load_extension" value="true" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="question_django@localhost" uuid="6c85a0d8-fa08-402f-b15f-a4ff555ffdf7">
+    <data-source source="LOCAL" name="Question_Django@localhost" uuid="358c6f8d-da1b-4382-952f-2988815dd356">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/question_django</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/Question_Django</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

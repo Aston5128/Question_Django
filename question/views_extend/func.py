@@ -4,7 +4,6 @@
 from django.shortcuts import get_object_or_404
 from question.models import Question, User, Count
 
-
 # 科目对应字典
 QUESTION_TYPE_DICT = {
     'J': '数据结构',
@@ -31,21 +30,16 @@ QUESTION_TYPE_DICT = {
 # 提取 index(request) 和 ques(request) 公共部分
 def index_ques_view(num):
     question = get_object_or_404(Question, pk=num)
-    context = generate_context(question_num=question.question_num,
-                               question_type=QUESTION_TYPE_DICT[question.question_type],
-                               question_text=question.question_text,
-                               choice_a=question.choice_a,
-                               choice_b=question.choice_b,
-                               choice_c=question.choice_c,
-                               choice_d=question.choice_d,
-                               answer=question.answer,
-                               difficulty=question.difficulty)
+    context = dict(question_num=question.question_num,
+                   question_type=QUESTION_TYPE_DICT[question.question_type],
+                   question_text=question.question_text,
+                   choice_a=question.choice_a,
+                   choice_b=question.choice_b,
+                   choice_c=question.choice_c,
+                   choice_d=question.choice_d,
+                   answer=question.answer,
+                   difficulty=question.difficulty)
     return context
-
-
-# 字典生成器
-def generate_context(**kwargs):
-    return dict(kwargs)
 
 
 # 对错题提醒
