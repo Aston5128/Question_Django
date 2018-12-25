@@ -5,49 +5,11 @@
 {% block title %}题型: {{ question_type }}{% endblock %}
 
 {% block head-content %}
-    <link href="{% static 'question/css/subject.css' %}" rel="stylesheet">
     <link href="{% static 'question/css/ques.css' %}" rel="stylesheet">
 
-    <script src="{% static 'question/js/login.js' %}"></script>
+    <script src="{% static 'question/js/ques.js' %}"></script>
 {% endblock %}
 
 {% block content_main %}
-    <div id="question-type-and-page-info" class="content">
-        <h1>专题练习 ></h1><br>
-        <p>{{ question_type }}</p>
-        <h1><a id="back-to-line" href="{% url 'ques' question_num %}">< 顺序练习</a></h1>
-    </div>
-    <div id="question" class="content">
-        {% include 'question/includes/question.html' %}
-
-        <div id="func-box">
-            <button id="forward" class="change-ques">上一题</button> |
-            <label><input type="text" id="ques_num"><button id="go-to-subject">Go</button></label> |
-            <span>{{ question_order }}/{{ num_of_ques }} |</span>
-            <button id="next" class="change-ques">下一题</button>
-        </div>
-    </div>
-    {% include 'question/includes/user_admin_info.html' %}
-
-    <script>
-        function go_to_subject() {
-            let ques_num = $('#ques_num').val();
-
-            if (parseInt(ques_num) >= 1 && parseInt(ques_num) <= {{ num_of_ques }}) {
-                location = '/subject/' + '{{ question_type_code }}/' + ques_num;
-            }
-        }
-
-        $(document).ready(function () {
-            $("#go-to-subject").click(function () {
-                go_to_subject();
-            });
-
-            $('#ques_num').bind('keypress', function (event) {
-                if (event.keyCode === 13) {
-                    go_to_subject();
-                }
-            });
-        });
-    </script>
+    {% include 'question/includes/question.html' %}
 {% endblock %}

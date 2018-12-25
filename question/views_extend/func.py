@@ -25,6 +25,7 @@ QUESTION_TYPE_DICT = {
     '5': 'VFP',
     '6': 'C#',
 }
+num_of_ques = Question.objects.count()
 
 
 # 提取 index(request) 和 ques(request) 公共部分
@@ -32,6 +33,7 @@ def index_ques_view(num):
     question = get_object_or_404(Question, pk=num)
     context = dict(question_num=question.question_num,
                    question_type=QUESTION_TYPE_DICT[question.question_type],
+                   num_of_ques=num_of_ques,
                    question_text=question.question_text,
                    choice_a=question.choice_a,
                    choice_b=question.choice_b,
@@ -65,10 +67,18 @@ def user_record(sess, question_num):
 # 对错题记录
 def add_count(username, question_num, is_true):
     count = Count.objects.filter(username=username, question_num=question_num)
-    if len(count) == 0:
+    if not count:
         user = User.objects.get(username=username)
         question = Question.objects.get(question_num=question_num)
-        temp_count = Count(is_true=is_true, username=user, question_num=question)
+        temp_count = Count(is_true=is_true,
+                           username=user, question_num=question)
+
+        user.total_count = user.total_count + 1
+        user.right_count = user.right_count + is_true
+
+        print(user.user, user.total_count, user.right_count)
+
+        user.save()
         temp_count.save()
 
 

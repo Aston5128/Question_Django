@@ -7,44 +7,11 @@
 {% endblock %}
 
 {% block head-content %}
-    <link href="{% static 'question/css/index.css' %}" rel="stylesheet">
     <link href="{% static 'question/css/ques.css' %}" rel="stylesheet">
 
-    <script src="{% static 'question/js/index.js' %}"></script>
-    <script src="{% static 'question/js/login.js' %}"></script>
+    <script src="{% static 'question/js/ques.js' %}"></script>
 {% endblock %}
 
 {% block content_main %}
-    <div id="question-type-and-page-info" class="content">
-        <h1>顺序练习 ></h1><br>
-        <a href="{% url 'subject' 'J' 1 %}">数据结构</a>
-        <a href="{% url 'subject' 'K' 1 %}">数据库原理</a>
-        <a href="{% url 'subject' 'W' 1 %}">网络</a>
-        <a href="{% url 'subject' 'R' 1 %}">软件工程</a>
-        <a href="{% url 'subject' 'Z' 1 %}">操作系统</a>
-        <a href="{% url 'subject' 'C' 1 %}">应用基础</a>
-        <a href="{% url 'subject' 'D' 1 %}">多媒体技术</a>
-        <a href="{% url 'subject' 'Y' 1 %}">硬件</a>
-        <a href="{% url 'subject' 'H' 1 %}">移动互联应用</a>
-        <a href="{% url 'subject' 'L' 1 %}">离散数学</a>
-        <a href="{% url 'subject' 'S' 1 %}">数据表示和计算</a>
-        <a href="{% url 'subject' 'Q' 1 %}">软件知识产权</a>
-        <a href="{% url 'subject' '1' 1 %}">C语言</a>
-        <a href="{% url 'subject' '2' 1 %}">C++</a>
-        <a href="{% url 'subject' '3' 1 %}">Java</a>
-        <a href="{% url 'subject' '4' 1 %}">VB</a>
-        <a href="{% url 'subject' '5' 1 %}">VFP</a>
-        <a href="{% url 'subject' '6' 1 %}">C#</a>
-    </div>
-    <div id="question" class="content">
-        {% include 'question/includes/question.html' %}
-
-        <div id="func-box">
-            <button id="forward" class="change-ques">上一题</button> |
-            <label><input type="text" id="ques_num"><button id="go-to">Go</button></label> |
-            <span>{{ question_num }}/3436</span> |
-            <button id="next" class="change-ques">下一题</button>
-        </div>
-    </div>
-    {% include 'question/includes/user_admin_info.html' %}
+    {% include 'question/includes/question.html' %}
 {% endblock %}

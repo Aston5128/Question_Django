@@ -49,3 +49,12 @@ def ajax_confirm_answer(request):
         return HttpResponse(json.dumps(dict(is_correct=False, answer=answer)))
 
 
+# 排名页面异步获取用户做题信息
+def ajax_ranking(request):
+    user_obj_list = User.objects.all()
+    user_data_list = []
+
+    for user in user_obj_list:
+        user_data_list.append([user.user, user.right_count, user.total_count])
+
+    return HttpResponse(json.dumps(user_data_list))

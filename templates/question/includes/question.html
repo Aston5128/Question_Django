@@ -1,134 +1,123 @@
 <!-- 提取出 index.html 和 subject.html 公共的问题部分 -->
 
+{% load static %}
 
-<p id="question-num">题号: {{ question_num }}</p>
-<div id="question-info">
-    <span id="question-info-type">题目类型: {{ question_type }} | 难度: {{ difficulty }} | </span>
-    {% if is_visited == 1 %}
-        <span style="color: green">你曾答对此题</span>
-    {% elif is_visited == 0 %}
-        <span style="color: red">你曾答错此题</span>
-    {% elif is_visited == -1 %}
-        <span style="color: #ff5a00">你还没做此题，选择很关键!</span>
-    {% else %}
-        <span style="color:#ff5a00;">查看这题的记录需要登录哦!</span>
-    {% endif %}
+<p id="question-num">Question {{ question_num }}</p>
+{% if question_order %}
+    <p id="question_pos">{{ question_order }} / {{ num_of_ques }}</p>
+{% else %}
+    <p id="question_pos">{{ question_num }} / {{ num_of_ques }}</p>
+{% endif %}
+<div class="row container" id="question-content">
+    <div class="bg-light shadow-sm" id="question-info-content">
+        <div id="question-info">
+            <div id="question-type" class="question-info-div"
+                 title="题目类型"><span
+                    class="info-span">{{ question_type }}</span></div>
+            <div id="difficulty-content" class="question-info-div"
+                 title="难度"><span
+                    class="info-span">{{ difficulty }}</span></div>
+            <div class="question-info-div" title="答题历史">
+                {% if is_visited == 1 %}
+                    <div style="background: url('{% static 'question/images/question_icons.png' %}') no-repeat 0 -47px;">
+                        <span style="color: #28a745;"
+                              class="info-span">对题</span>
+                    </div>
+                {% elif is_visited == 0 %}
+                    <div style="background: url('{% static 'question/images/question_icons.png' %}') no-repeat 0 -96px;">
+                        <span style="color: #dc3545"
+                              class="info-span">错题</span>
+                    </div>
+                {% elif is_visited == -1 %}
+                    <div style="background: url('{% static 'question/images/question_icons.png' %}') no-repeat 0 -72px;">
+                        <span style="color: #ff5a00"
+                              class="info-span">未做题</span>
+                    </div>
+                {% else %}
+                    <div style="background: url('{% static 'question/images/question_icons.png' %}') no-repeat 0 -96px;">
+                        <span style="color:#ff5a00;"
+                              class="info-span">请登录</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <pre id="question-text">{{ question_text }}</pre>
+    </div>
+    <div class="float-left" id="choice-content">
+        <form id="choice-form" name="choice-form" method="post" action="">
+            <label class="choice-label shadow-sm" id="choice-label-selected">
+                <input type="radio" class="choice-input" name="choice"
+                       value="A"
+                       checked="checked" onclick="choice_click(1); "/>
+                {{ choice_a }}
+            </label><br/>
+            <label class="choice-label shadow-sm">
+                <input type="radio" class="choice-input" name="choice"
+                       value="B" onclick="choice_click(2);"/>
+                {{ choice_b }}
+            </label><br/>
+            <label class="choice-label shadow-sm">
+                <input type="radio" class="choice-input" name="choice"
+                       value="C" onclick="choice_click(3);"/>
+                {{ choice_c }}
+            </label><br/>
+            <label class="choice-label shadow-sm">
+                <input type="radio" class="choice-input" name="choice"
+                       value="D" onclick="choice_click(4);"/>
+                {{ choice_d }}
+            </label>
+        </form>
+    </div>
+</div>
+<div class="container" style="padding: 30px 0">
+    <div class="row">
+        <div class="col-2" id="page-bar-filler"></div>
+        <nav class="col" aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item"><span class="page-link" style="color: #FF5A00;" onclick="page_shift(-1, {{ num_of_ques }})"><<</span></li>
+                <li class="page-item"><input type="text" title="go to" id="go-to" placeholder="Page"></li>
+                <li class="page-item"><button class="page-link" id="go-to-btn" onclick="go_to({{ num_of_ques }});">Go</button></li>
+                <li class="page-item"><span class="page-link" style="color: #FF5A00;" onclick="page_shift(1, {{ num_of_ques }})">>></span>
+                </li>
+            </ul>
+        </nav>
+        <button type="button" id="sub-btn" class="btn col">提交</button>
+        <div class="col-2" id="page-bar-filler"></div>
+    </div>
 </div>
 
-
-<pre id="question-text">{{ question_text }}</pre>
-<form id="choice-form" name="choice-form" method="post" action="">
-    <label>
-        <input type="radio" name="choice" value="A" checked="checked"/>
-        A: {{ choice_a }}
-    </label><br/>
-    <label>
-        <input type="radio" name="choice" value="B"/>
-        B: {{ choice_b }}
-    </label><br/>
-    <label>
-        <input type="radio" name="choice" value="C"/>
-        C: {{ choice_c }}
-    </label><br/>
-    <label>
-        <input type="radio" name="choice" value="D"/>
-        D: {{ choice_d }}
-    </label><br/><br/>
-    <button type="button" id="sub-btn" class="btn">提 交</button>
-    <span style="visibility: hidden;" id="answer"></span>
-    {% if question_order and question_order != num_of_ques %}
-        <span style="visibility: hidden; color: black" id="info">, 3秒后将跳转到下一题</span>
-        <a href="{% url 'subject' question_type_code question_order|add:1 %}" style="visibility: hidden" id="jump">
-            没有跳转？</a>
-    {% elif not question_order and question_num != 3436 %}
-        <span style="visibility: hidden; color: black" id="info">, 3秒后将跳转到下一题</span>
-        <a href="{% url 'ques' question_num|add:1 %}" style="visibility: hidden" id="jump">
-            没有跳转？</a>
-    {% else %}
-        <span style="visibility: hidden; color: black" id="info">, 这是最后一题</span>
-    {% endif %}
-</form>
-
 <script>
-    {% if question_order %}
-        function subject_jump(k) {
-            if (k === 1) {
-                location = '{% url 'subject' question_type_code question_order|add:1 %}';
-            } else if (k === -1) {
-                location = '{% url 'subject' question_type_code question_order|add:-1 %}';
-            }
-        }
-    {% else %}
-        function question_jump(k) {
-            if (k === 1) {
-                location = '{% url 'ques' question_num|add:1 %}';
-            } else if (k === -1) {
-                location = '{% url 'ques' question_num|add:-1 %}';
-            }
-        }
-    {% endif %}
+    let question_num = '{{ question_num }}';
+    let question_order;
+    let question_url_dict = {
+        'ajax_confirm_answer': "{% url 'ajax_confirm_answer' %}",
+    };
 
-    $.ajaxSetup({
-        data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
-    });
-
-    function confirm_answer() {
-        const choice = $('input:radio[name="choice"]:checked').val();
-
-        $.ajax({
-            url: "{% url 'ajax_confirm_answer' %}",
-            type: "post",
-            data: {'question_num': '{{ question_num }}', 'choice': choice},
-            success: function (args) {
-                const json = jQuery.parseJSON(args);
-                if (json['is_correct']) {
-                    $("#answer").css('visibility', 'visible').css('color', 'green').text(' 答对了');
-                    $("#info").css('visibility', 'visible');
-                    $("#jump").css('visibility', 'visible');
-                    {% if question_order and question_order != num_of_ques %}
-                        setTimeout('subject_jump(1)', 3000);
-                    {% elif not question_order and question_num != 3436 %}
-                        setTimeout('question_jump(1)', 3000);
-                    {% endif %}
-                } else {
-                    $("#answer").css('visibility', 'visible').css('color', 'red').text(' 答错了，正确答案: ' + json['answer']);
-                }
-            }
-        });
+    function go_to(num_of_ques) {
+        if (question_order) go_to_page(num_of_ques, '{{ question_type_code }}');
+        else go_to_page(num_of_ques)
     }
 
-    $(document).ready(function () {
-        $("#sub-btn").click(function () {
-            confirm_answer();
-        });
-
-        // 存在 question_order 表示用户是在专题练习中
-        let current_page_num = {{ question_num }};
-        let max_page_num = 3436;
-        let flag = true;
-
-        if ("{{ question_order }}") {
-            current_page_num = "{{ question_order }}";
-            max_page_num = "{{ num_of_ques }}";
-            flag = false;
+    $('#go-to').keypress(function (event) {
+        if (event.keyCode === 13) {
+            $('#go-to-btn').trigger("click");
         }
+    });
 
-        $("#next").click(function () {
-            if (current_page_num === max_page_num) {
-                alert('不能再往后了 <(￣ ﹌ ￣)>');
-            } else {
-                if (flag) question_jump(1);
-                else subject_jump(1);
-            }
-        });
+    $('#password').keypress(function (event) {
+        if (event.keyCode === 13) {
+            $('#login-btn').trigger("click");
+        }
+    });
 
-        $("#forward").click(function () {
-            if (current_page_num === 1) {
-                alert('不能再往前了 <(￣ ﹌ ￣)>');
-            } else {
-                if (flag) question_jump(-1);
-                else subject_jump(-1);
-            }
-        });
+    $(document).ready(function () {
+        {% if question_order %}
+            question_order = {{ question_order }};
+            question_url_dict['next_page'] = '{% url 'subject' question_type_code question_order|add:1 %}';
+            question_url_dict['pre_page'] = '{% url 'subject' question_type_code question_order|add:-1 %}';
+        {% else %}
+            question_url_dict['next_page'] = '{% url 'ques' question_num|add:1 %}';
+            question_url_dict['pre_page'] = '{% url 'ques' question_num|add:-1 %}';
+        {% endif %}
     });
 </script>

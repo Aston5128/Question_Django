@@ -1,25 +1,10 @@
-* {margin: 0 0; padding: 0 0;}
-
-body {min-width: 1280px; color: #525252; background-color: #f7f7f7}
-
-#top-bar {
-    width: 100%;
-    height: 57px;
-    border-bottom: rgba(88, 88, 88, 0.5) 3px solid;
-    background-color: white;
-    position: fixed;
-}
-
-#top-bar p {
-    color: #ff5a00;
-    text-align: center;
-    margin: 10px auto;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-#main-content {
-    padding-top: 60px;
-    width: 1280px;
-    margin: 0 auto;
-}
+#username { background: #f7f7f7 url('../images/login_icons.png') no-repeat 10px 8px; color: #7c7c7c; width: 240px; height: 40px; padding: 0 10px 0 40px; }
+#password { background: #f7f7f7 url('../images/login_icons.png') no-repeat 10px -29px; color: #ff5a00; width: 240px; height: 40px; padding: 0 10px 0 40px; }
+#subject-a { font-size: 14px; color: #7c7c7c; }
+.error-msg { height: 15px; }
+#error-msg-text { font-size: 10px; display: block; margin: 0 auto; width: fit-content; }
+#login-btn { height: 30px; padding-top: 3px; font-weight: 300; margin: 10px auto; display: block; }
+.account-op { color: #7c7c7c; text-decoration: none; font-size: 12px; }
+.account-op:hover { color: #555; text-decoration: none; }
+.user-info-drop-item { font-size: 14px; }
+#main-content { padding-top: 25px; }

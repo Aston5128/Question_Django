@@ -9,19 +9,16 @@
 {% endblock %}
 
 {% block content_main %}
-    <div>
-        <div class="container">
-            <div id="private_space">
-                <div id="user-img" class="user"><img src="{% static 'question/images/user.jpg' %}"></div>
-                <div id="user-name" class="user"><h1>{{ user }}</h1></div>
-                <div id="user-title" class="user">- {{ user_title }} -</div>
-            </div>
-            <div id="table_content">
-                <div id="table_content_1"><h1>{{ right_count }}</h1><span>正确</span></div>
-                <div id="table_content_2"><h1>{{ right_rate }}%</h1><span>正确率</span></div>
-                <div id="table_content_3"><h1>{{ wrong_count }}</h1><span>错误</span></div>
-                <div id="table_content_4"><h1>{{ total_count }}</h1><span>总刷题数</span></div>
-            </div>
+    <div class="container">
+        <h1 id="user-name">{{ user }}</h1>
+        <div id="user-title" class="user">- {{ user_title }} -</div>
+        <div id="private_space"></div>
+        <div id="score-box" class="bg-light rounded-bottom shadow-sm">
+            <h3 style="font-weight: 300;">{{ user_class_name }}</h3>
+            <span>正确: {{ right_count }}</span><br>
+            <span>错误: {{ wrong_count }}</span><br>
+            <span>正确率: {{ right_rate }}%</span><br>
+            <span>总刷题数: {{ total_count }}</span>
         </div>
     </div>
 {% endblock %}

@@ -37,9 +37,9 @@ def subject(request, subject_code, num=1):
     :return: 响应页面
     """
     question_list = get_list_or_404(Question, question_type=subject_code)
-    num_of_ques = len(question_list)
+    num_of_subj = len(question_list)
 
-    if num_of_ques is 0 or num <= 0 or num > num_of_ques:
+    if num_of_subj is 0 or num <= 0 or num > num_of_subj:
         raise Http404('Page Not Found')
 
     question = question_list[num - 1]
@@ -50,7 +50,7 @@ def subject(request, subject_code, num=1):
     user_title = generate_session_title(request.session)
 
     context = dict(question_order=num,
-                   num_of_ques=num_of_ques,
+                   num_of_ques=num_of_subj,
                    question_num=question_num,
                    question_type=QUESTION_TYPE_DICT[question.question_type],
                    question_type_code=subject_code,
@@ -71,11 +71,10 @@ def subject(request, subject_code, num=1):
 def space(request):
     username = request.session['user']
     user = User.objects.get(username=username)
-    count = Count.objects.filter(username=username)
 
-    total_count = len(count)  # 做题总数
-    wrong_count = len(count.filter(is_true=0))  # 错题数
-    right_count = total_count - wrong_count  # 正确数
+    total_count = user.total_count  # 做题总数
+    right_count = user.right_count  # 正确数
+    wrong_count = total_count - right_count  # 错题数
     if total_count == 0:  # 正确率
         right_rate = 0
     else:
@@ -83,10 +82,22 @@ def space(request):
 
     user_title = generate_user_title(total_count)
 
-    context = dict(user=user.user, user_title=user_title, total_count=total_count, wrong_count=wrong_count,
-                   right_count=right_count, right_rate=right_rate)
+    context = dict(user=user.user, user_title=user_title,
+                   total_count=total_count, wrong_count=wrong_count,
+                   right_count=right_count, right_rate=right_rate,
+                   user_class_name=user.class_name)
 
     return render(request, 'question/space.html', context=context)
+
+
+# 排名页面
+def rank(request):
+    username = request.session['user']
+    user = User.objects.get(username=username)
+
+    context = dict(user=user.user)
+
+    return render(request, 'question/rank.html', context=context)
 
 
 # 自定义 404 页面

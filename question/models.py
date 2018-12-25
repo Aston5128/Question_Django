@@ -18,6 +18,8 @@ class User(models.Model):
     password = models.CharField(max_length=70)
     user = models.CharField(max_length=20)
     class_name = models.CharField(max_length=40)
+    right_count = models.IntegerField(default=0)
+    total_count = models.IntegerField(default=0)
 
 
 class Count(models.Model):
